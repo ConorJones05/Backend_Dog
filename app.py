@@ -102,14 +102,17 @@ def add_dogs(name, image, breed, price):
     
 @app.route("/admin/login", methods=["POST"])
 def admin_login():
-    """Handle admin login with hardcoded credentials."""
+    """Handle admin login with credentials from environment variables."""
     data = request.get_json()
     username = data.get("username")
     password = data.get("password")
 
-    if username == "admin" and password == "password":
+    admin_username = os.environ.get("ADMIN_USERNAME", "admin")
+    admin_password = os.environ.get("ADMIN_PASSWORD", "password")
+
+    if username == admin_username and password == admin_password:
         return jsonify({
-            "access_token": "dummy_admin_token",
+            "access_token": os.environ.get("ADMIN_TOKEN", "dummy_admin_token"),
             "message": "Login successful"
         }), 200
 
