@@ -14,6 +14,10 @@ supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
 
+@app.route('/')
+def home():
+    return "Welcome to the Dog API!"
+
 @app.route('/dashboard', methods=['GET'])
 def dashboard():
     """Retrieve all dogs and calculate statistics for the admin dashboard."""
@@ -158,4 +162,5 @@ def admin_dogs():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
